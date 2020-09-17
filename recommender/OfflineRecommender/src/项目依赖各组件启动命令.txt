@@ -1,0 +1,16 @@
+MongoDB相关操作：
+1.启动MongoDB服务器
+/usr/local/mongodb/bin/mongod -config /usr/local/mongodb/data/mongodb.conf
+2.访问MongoDB服务器
+/usr/local/mongodb/bin/mongo
+3.MongoDB简单命令操作
+（1）查看所有的数据库：show dbs
+（2）查看当前的数据库：db
+（3）切换到指定的数据库：use recommender
+ (4) 查看表：show tables
+（5）查询数据: db.UserRecs.find().pretty()
+               db.ProductRecs.find().pretty()
+ (6) 查看表中一共多少数据：db.UserRecs.find().count()
+                           db.ProductRecs.find().count()
+4.停止MongoDB服务器
+/usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
