@@ -35,15 +35,17 @@ case class MongoConfig( uri: String, db: String )
 
 object DataLoader {
   // 定义数据文件路径
-  val PRODUCT_DATA_PATH = "E:\\Users\\ThinkPad\\IdeaProjects\\RecommendationSystem\\recommender\\DataLoader\\src\\main\\resources\\products.csv"
-  val RATING_DATA_PATH = "E:\\Users\\ThinkPad\\IdeaProjects\\RecommendationSystem\\recommender\\DataLoader\\src\\main\\resources\\ratings.csv"
+//  val PRODUCT_DATA_PATH = "E:\\Users\\ThinkPad\\IdeaProjects\\RecommendationSystem\\recommender\\DataLoader\\src\\main\\resources\\products.csv"
+//  val RATING_DATA_PATH = "E:\\Users\\ThinkPad\\IdeaProjects\\RecommendationSystem\\recommender\\DataLoader\\src\\main\\resources\\ratings.csv"
+  val PRODUCT_DATA_PATH = "/root/cluster/task/products.csv"
+  val RATING_DATA_PATH = "/root/cluster/task/ratings.csv"
   // 定义mongodb中存储的表名
   val MONGODB_PRODUCT_COLLECTION = "Product"
   val MONGODB_RATING_COLLECTION = "Rating"
 
   def main(args: Array[String]): Unit = {
     val config = Map(
-      "spark.cores" -> "local[*]",
+      "spark.cores" -> "local[1]",
       "mongo.uri" -> "mongodb://192.168.2.101:27017/recommender",
       "mongo.db" -> "recommender"
     )
