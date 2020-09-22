@@ -62,3 +62,93 @@
     /usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
 
     5.运行spark脚本：/root/cluster/task/OfflineRecommender.sh
+
+四、实时推荐服务
+    1.MongoDB相关命令操作
+        启动：/usr/local/mongodb/bin/mongod -config /usr/local/mongodb/data/mongodb.conf
+        停止：/usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
+        访问MongoDB服务器：/usr/local/mongodb/bin/mongo
+        基本命令操作：
+        （1）查看所有的数据库：show dbs
+        （2）查看当前的数据库：db
+        （3）切换到指定的数据库：use recommender
+         (4) 查看表：show tables
+        （5）查询数据: db.StreamRecs.find({userId:4867}).sort({timestamp:1}).pretty()
+
+    2.redis相关命令操作
+        启动：redis-server /etc/redis.conf
+        停止：redis-cli shutdown
+        连接redis服务器：redis-cli
+        基本命令操作：
+            查看所有的键：keys *
+            删除指定索引的值：del userId:4867
+            写数据：
+                单条插入：lpush userId:4867 231449:3.0
+                多条插入：lpush userId:4867 250451:3.0 294209:1.0 457976:5.0 425715:5.0
+            查询指定key下所有的值：lrange userId:4867 0 -1
+
+    3.zk相关命令操作
+        启动：/root/cluster/zookeeper-3.4.10/bin/zkServer.sh start
+        状态：/root/cluster/zookeeper-3.4.10/bin/zkServer.sh status
+        停止：/root/cluster/zookeeper-3.4.10/bin/zkServer.sh stop
+    3.kafka相关命令操作
+        启动：/root/cluster/kafka_2.11-0.10.2.1/bin/kafka-server-start.sh -daemon /root/cluster/kafka_2.11-0.10.2.1/config/server.properties (启动前需确保先启动zk)
+        停止：/root/cluster/kafka_2.11-0.10.2.1/bin/kafka-server-stop.sh
+        查看topic: /root/cluster/kafka_2.11-0.10.2.1/bin/kafka-topics.sh --zookeeper 192.168.2.101:2181 --list
+        创建topic：/root/cluster/kafka_2.11-0.10.2.1/bin/kafka-topics.sh --create --zookeeper 192.168.2.101:2181 --replication-factor 1 --partitions 1 --topic recommender
+        kafka-console-producer：/root/cluster/kafka_2.11-0.10.2.1/bin/kafka-console-producer.sh --broker-list 192.168.2.101:9092 --topic recommender
+        kafka-console-consumer：/root/cluster/kafka_2.11-0.10.2.1/bin/kafka-console-consumer.sh --bootstrap-server 192.168.2.101:9092 --topic recommender
+
+        linux获取时间戳的方法：date +%s
+        造数据：kafka生成这命令行输入数据：4867|8195|4.0|1598135988
+    4.启动spark程序：nohup /root/cluster/task/OnlineRecommender.sh > /root/cluster/task/OnlineRecommender.log 2>&1 &
+      停止：kill -9 sid
+
+    5.启动ngnix /usr/local/nginx/sbin/nginx
+      重启：/usr/local/nginx/sbin/nginx -s reload
+
+    6.启动后台业务系统：/root/cluster/business-server/back/businessserverback.sh start
+
+    7.前端访问地址：http://192.168.2.101:3000
+
+    8.启动flume
+    后台执行
+    nohup /root/cluster/apache-flume-1.9.0-bin/bin/flume-ng agent -c /root/cluster/apache-flume-1.9.0-bin/conf -f /root/cluster/apache-flume-1.9.0-bin/conf/log-kafka.properties -n agent -Dflume.root.logger=INFO,console &
+    输出到控制台
+    nohup /root/cluster/apache-flume-1.9.0-bin/bin/flume-ng agent -c /root/cluster/apache-flume-1.9.0-bin/conf -f /root/cluster/apache-flume-1.9.0-bin/conf/log-kafka.properties -n agent -Dflume.root.logger=INFO,console &
+
+五、基于内容相似推荐
+    MongoDB相关操作：
+    1.启动MongoDB服务器
+    /usr/local/mongodb/bin/mongod -config /usr/local/mongodb/data/mongodb.conf
+    2.访问MongoDB服务器
+    /usr/local/mongodb/bin/mongo
+    3.MongoDB简单命令操作
+    （1）查看所有的数据库：show dbs
+    （2）查看当前的数据库：db
+    （3）切换到指定的数据库：use recommender
+     (4) 查看表：show tables
+    （5）查询数据: db.ContentBasedProductRecs.find().pretty()  //基于内容相似推荐列表
+     (6) 查看表中一共多少数据：db.ContentBasedProductRecs.find().count()
+    4.停止MongoDB服务器
+    /usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
+
+    5.运行spark脚本：/root/cluster/task/OfflineRecommender.sh
+
+六、基于物品的协同过滤相似推荐
+    MongoDB相关操作：
+    1.启动MongoDB服务器
+    /usr/local/mongodb/bin/mongod -config /usr/local/mongodb/data/mongodb.conf
+    2.访问MongoDB服务器
+    /usr/local/mongodb/bin/mongo
+    3.MongoDB简单命令操作
+    （1）查看所有的数据库：show dbs
+    （2）查看当前的数据库：db
+    （3）切换到指定的数据库：use recommender
+     (4) 查看表：show tables
+    （5）查询数据: db.ItemCFProductRecs.find().pretty()  //基于物品的协同过滤相似推荐列表
+     (6) 查看表中一共多少数据：db.ItemCFProductRecs.find().count()
+    4.停止MongoDB服务器
+    /usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
+
+    5.运行spark脚本：/root/cluster/task/OfflineRecommender.sh

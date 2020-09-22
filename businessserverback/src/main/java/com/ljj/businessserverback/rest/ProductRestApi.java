@@ -64,8 +64,8 @@ public class ProductRestApi {
     @ResponseBody
     public HttpResult getOfflineProducts(@RequestParam("username")String username,@RequestParam("num")int num) {
         User user = userService.findByUsername(username);
-        //List<Recommendation> recommendations = recommenderService.getCollaborativeFilteringRecommendations(new UserRecommendationRequest(user.getUserId(), num));
-        List<Recommendation> recommendations = recommenderService.getCollaborativeFilteringRecommendations(new UserRecommendationRequest(871855, num));
+        List<Recommendation> recommendations = recommenderService.getCollaborativeFilteringRecommendations(new UserRecommendationRequest(user.getUserId(), num));
+//        List<Recommendation> recommendations = recommenderService.getCollaborativeFilteringRecommendations(new UserRecommendationRequest(871855, num));
         Map<String,Object> map = new HashMap<>();
         map.put("success",true);
         map.put("products", productService.getRecommendProducts(recommendations));
@@ -78,8 +78,8 @@ public class ProductRestApi {
     public HttpResult getStreamProducts(@RequestParam("username")String username,@RequestParam("num")int num) {
         User user = userService.findByUsername(username);
 
-        //List<Recommendation> recommendations = recommenderService.getStreamRecommendations(new UserRecommendationRequest(user.getUserId(), num));
-        List<Recommendation> recommendations = recommenderService.getStreamRecommendations(new UserRecommendationRequest(4867, num));
+        List<Recommendation> recommendations = recommenderService.getStreamRecommendations(new UserRecommendationRequest(user.getUserId(), num));
+//        List<Recommendation> recommendations = recommenderService.getStreamRecommendations(new UserRecommendationRequest(4867, num));
         Map<String,Object> map = new HashMap<>();
         map.put("success",true);
         map.put("products", productService.getRecommendProducts(recommendations));

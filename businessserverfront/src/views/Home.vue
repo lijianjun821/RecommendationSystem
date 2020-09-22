@@ -111,7 +111,7 @@ export default {
         })
       } else if (val === 'offline') {
         this.typeName = '离线推荐'
-        this.$http.get('/rest/product/offline', { num: num }).then(res => {
+        this.$http.get('/rest/product/offline', { username: this.$store.state.user.username, num: num }).then(res => {
           this.productList = []
           this.productList = res.data.products
           this.page = 'all'
@@ -119,7 +119,7 @@ export default {
       } else if (val === 'stream') {
         this.productList = []
         this.typeName = '实时推荐'
-        this.$http.get('/rest/product/stream', { num: num }).then(res => {
+        this.$http.get('/rest/product/stream', { username: this.$store.state.user.username, num: num }).then(res => {
           this.productList = res.data.products
           this.page = 'all'
         })
@@ -133,7 +133,7 @@ export default {
     },
     //获取离线推荐
     getOfflineProductList(num) {
-      this.$http.get('/rest/product/offline', { num: num }).then(res => {
+      this.$http.get('/rest/product/offline', { username: this.$store.state.user.username, num: num }).then(res => {
         this.offlineProductList = res.data.products
       })
     },
@@ -145,7 +145,7 @@ export default {
     },
     //获取实时推荐
     getStreamProductList(num) {
-      this.$http.get('/rest/product/stream', { num: num }).then(res => {
+      this.$http.get('/rest/product/stream', { username: this.$store.state.user.username, num: num }).then(res => {
         this.streamProductList = res.data.products
       })
     },

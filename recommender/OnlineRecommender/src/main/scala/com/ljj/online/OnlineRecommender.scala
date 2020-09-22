@@ -36,7 +36,7 @@ object OnlineRecommender {
 
   def main(args: Array[String]): Unit = {
     val config = Map(
-      "spark.cores" -> "local[*]",
+      "spark.cores" -> "local[1]",
       "mongo.uri" -> "mongodb://192.168.2.101:27017/recommender",
       "mongo.db" -> "recommender",
       "kafka.topic" -> "recommender"

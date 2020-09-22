@@ -17,6 +17,8 @@
         <module>OfflineRecommender</module>
         <module>OnlineRecommender</module>
         <module>FlumeInterceptor</module>
+        <module>ContentRecommender</module>
+        <module>ItemCFRecommender</module>
     </modules>
 
     <dependencyManagement>

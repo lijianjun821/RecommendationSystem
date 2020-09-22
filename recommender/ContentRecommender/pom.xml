@@ -8,10 +8,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>OnlineRecommender</artifactId>
+    <artifactId>ContentRecommender</artifactId>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.scalanlp</groupId>
+            <artifactId>jblas</artifactId>
+            <version>${jblas.version}</version>
+        </dependency>
+
         <!-- Spark的依赖引入 -->
         <dependency>
             <groupId>org.apache.spark</groupId>
@@ -23,7 +29,7 @@
         </dependency>
         <dependency>
             <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming_2.11</artifactId>
+            <artifactId>spark-mllib_2.11</artifactId>
         </dependency>
         <!-- 引入Scala -->
         <dependency>
@@ -44,26 +50,6 @@
             <artifactId>mongo-spark-connector_2.11</artifactId>
             <version>${mongodb-spark.version}</version>
         </dependency>
-
-        <!-- redis -->
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-            <version>2.9.0</version>
-        </dependency>
-
-        <!-- kafka -->
-        <dependency>
-            <groupId>org.apache.kafka</groupId>
-            <artifactId>kafka-clients</artifactId>
-            <version>0.10.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.spark</groupId>
-            <artifactId>spark-streaming-kafka-0-10_2.11</artifactId>
-            <version>${spark.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
@@ -136,4 +122,5 @@
             </plugin>
         </plugins>
     </build>
+
 </project>
