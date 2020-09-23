@@ -87,6 +87,7 @@ public class ProductRestApi {
     }
 
     @GetMapping(value = "/userRate")
+    @ResponseBody
     public HttpResult rateToProduct(@RequestParam("id")int id, @RequestParam("score")Double score, @RequestParam("username")String username) {
         User user = userService.findByUsername(username);
         ProductRatingRequest request = new ProductRatingRequest(user.getUserId(), id, score);
@@ -99,6 +100,28 @@ public class ProductRestApi {
         Map<String,Object> map = new HashMap<>();
         map.put("success",true);
         map.put("message"," 已完成评分！");
+        return HttpResult.ok(map);
+    }
+
+    // 基于物品的协同过滤
+    @GetMapping(value = "/itemcf")
+    @ResponseBody
+    public HttpResult getItemCFProducts(@RequestParam("id")int id) {
+        List<Recommendation> recommendations = recommenderService.getItemCFRecommendations(new ItemCFRecommendationRequest(id));
+        Map<String,Object> map = new HashMap<>();
+        map.put("success",true);
+        map.put("products", productService.getRecommendProducts(recommendations));
+        return HttpResult.ok(map);
+    }
+
+    // 基于内容的推荐
+    @GetMapping(value = "/contentbased")
+    @ResponseBody
+    public HttpResult getContentBasedProducts(@RequestParam("id")int id) {
+        List<Recommendation> recommendations = recommenderService.getContentBasedRecommendations(new ContentBasedRecommendationRequest(id));
+        Map<String,Object> map = new HashMap<>();
+        map.put("success",true);
+        map.put("products", productService.getRecommendProducts(recommendations));
         return HttpResult.ok(map);
     }
 }

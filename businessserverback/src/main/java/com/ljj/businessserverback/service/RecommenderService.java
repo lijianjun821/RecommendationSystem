@@ -101,4 +101,34 @@ public class RecommenderService {
         }
         return recommendations;
     }
+
+    public List<Recommendation> getItemCFRecommendations(ItemCFRecommendationRequest request) {
+        MongoCollection<Document> itemCFProductsCollection = mongoTemplate.getDb().getCollection(Constant.MONGODB_ITEMCF_COLLECTION);
+        Document document = itemCFProductsCollection.find(new Document("productId", request.getId())).first();
+
+        System.out.println(document.get("recs"));
+        List<Recommendation> recommendations = new ArrayList<>();
+        ArrayList<Document> recs = document.get("recs", ArrayList.class);
+
+        for (Document recDoc : recs) {
+            recommendations.add(new Recommendation(recDoc.getInteger("productId"), recDoc.getDouble("score")));
+        }
+
+        return recommendations;
+    }
+
+    public List<Recommendation> getContentBasedRecommendations(ContentBasedRecommendationRequest request) {
+        MongoCollection<Document> contentBasedProductsCollection = mongoTemplate.getDb().getCollection(Constant.MONGODB_CONTENTBASED_COLLECTION);
+        Document document = contentBasedProductsCollection.find(new Document("productId", request.getId())).first();
+
+        System.out.println(document.get("recs"));
+        List<Recommendation> recommendations = new ArrayList<>();
+        ArrayList<Document> recs = document.get("recs", ArrayList.class);
+
+        for (Document recDoc : recs) {
+            recommendations.add(new Recommendation(recDoc.getInteger("productId"), recDoc.getDouble("score")));
+        }
+
+        return recommendations;
+    }
 }

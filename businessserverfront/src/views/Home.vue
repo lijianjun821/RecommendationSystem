@@ -2,7 +2,7 @@
   <el-container>
     <el-header>
       <div style="width:70%;margin:0 auto;">
-        <div class="one" style="width:10%"><sapn style="float:left;font-size:20px;margin-top: 15px;cursor:pointer;" @click="toHome()">首页</sapn></div>
+        <div class="one" style="width:10%"><span style="float:left;font-size:20px;margin-top: 15px;cursor:pointer;" @click="toHome()">首页</span></div>
 
         <div class="one" style="width:12%">
           <el-menu mode="horizontal" @select="handleSelect" background-color="#fff" text-color="#000" active-text-color="#000">
@@ -28,7 +28,7 @@
               <el-avatar icon="el-icon-user-solid"></el-avatar>
             </span>
             <el-dropdown-menu slot="dropdown">
-              <el-dropdown-item @click="logout()"><sapn @click="logout()">退出</sapn></el-dropdown-item>
+              <el-dropdown-item @click="logout()"><span @click="logout()">退出</span></el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
@@ -48,7 +48,7 @@
           @clickMore="clickMore"
         ></part>
         <all v-if="page === 'all'" :productList="productList" :typeName="typeName" @clickImage="clickImage" @clickRate="clickRate"></all>
-        <detail v-if="page === 'detail'" :product="product" @clickRate="clickRate"></detail>
+        <detail v-if="page === 'detail'" :product="product" @clickRate="clickRate" @clickImage="clickImage"></detail>
         <br /><br /></div
     ></el-main>
   </el-container>
@@ -63,6 +63,7 @@ export default {
   components: { Part, All, Detail },
   data() {
     return {
+      input: '',
       page: 'part',
       showNum: 6,
       typeName: '',
@@ -76,7 +77,6 @@ export default {
   },
   methods: {
     clickImage(item) {
-      debugger
       this.page = 'detail'
       this.product = item
       this.product.tagSplit = item.tags.split('|')
@@ -85,11 +85,11 @@ export default {
     clickRate(item) {
       console.log('评分')
       console.log(item)
-      this.$http.get('/rest/product/userRate', { id: item.productId, score: item.score, username: this.$store.state.user.username }).then(res => {})
-
-      this.$message({
-        message: '恭喜您，评分成功！分数为 ' + item.score + ' 颗星',
-        type: 'success'
+      this.$http.get('/rest/product/userRate', { id: item.productId, score: item.score, username: this.$store.state.user.username }).then(res => {
+        this.$message({
+          message: '恭喜您，评分成功！分数为 ' + item.score + ' 颗星',
+          type: 'success'
+        })
       })
     },
     clickMore(val) {
@@ -158,7 +158,8 @@ export default {
     },
     logout() {
       this.$router.replace('/')
-    }
+    },
+    handleSelect() {}
   },
   mounted() {
     this.toHome()

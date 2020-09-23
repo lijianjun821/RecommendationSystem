@@ -133,7 +133,7 @@
     4.停止MongoDB服务器
     /usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
 
-    5.运行spark脚本：/root/cluster/task/OfflineRecommender.sh
+    5.运行spark脚本：/root/cluster/task/ContentRecommender.sh
 
 六、基于物品的协同过滤相似推荐
     MongoDB相关操作：
@@ -151,4 +151,4 @@
     4.停止MongoDB服务器
     /usr/local/mongodb/bin/mongod -shutdown -config /usr/local/mongodb/data/mongodb.conf
 
-    5.运行spark脚本：/root/cluster/task/OfflineRecommender.sh
+    5.运行spark脚本：/root/cluster/task/ItemCFRecommender.sh

@@ -5,7 +5,7 @@ import axios from 'axios'
 const httpService = axios.create({
   baseURL: 'http://localhost:8080', // url前缀
   // baseURL: 'http://192.168.2.101:8080', // url前缀
-  timeout: 3000 // 请求超时时间
+  timeout: 30000 // 请求超时时间
 })
 
 // request拦截器
